@@ -11,6 +11,7 @@ import su.plo.voice.api.event.EventSubscribe
 import su.plo.voice.flashback.event.FlashbackEvents
 import su.plo.voice.flashback.network.PacketUdpWrapper
 import su.plo.voice.flashback.network.VoiceSetupPacket
+import su.plo.voice.flashback.util.extension.encodeToByteArrayPayload
 import su.plo.voice.proto.data.audio.capture.VoiceActivation
 import su.plo.voice.proto.data.audio.line.VoiceSourceLine
 import su.plo.voice.proto.data.encryption.EncryptionInfo
@@ -19,6 +20,8 @@ import su.plo.voice.proto.packets.tcp.clientbound.ConfigPacket
 import su.plo.voice.proto.packets.tcp.clientbound.ConnectionPacket
 import su.plo.voice.proto.packets.tcp.clientbound.LanguagePacket
 import su.plo.voice.proto.packets.tcp.clientbound.PlayerListPacket
+import su.plo.voice.proto.packets.tcp.clientbound.SelfSourceInfoPacket
+import su.plo.voice.proto.packets.tcp.clientbound.SourceInfoPacket
 import su.plo.voice.proto.packets.udp.PacketUdp
 import su.plo.voice.proto.packets.udp.clientbound.SelfAudioInfoPacket
 import su.plo.voice.proto.packets.udp.clientbound.SourceAudioPacket
@@ -52,6 +55,24 @@ class VoicePacketRecorder(
                 ),
                 ConnectionProtocol.PLAY,
             )
+
+            currentSourcesPackets()?.forEach { sourceInfoPacket ->
+                Flashback.RECORDER.writePacketAsync(
+                    ClientboundCustomPayloadPacket(
+                        sourceInfoPacket.encodeToByteArrayPayload(),
+                    ),
+                    ConnectionProtocol.PLAY,
+                )
+            }
+
+            currentSelfSourcesPackets()?.forEach { sourceInfoPacket ->
+                Flashback.RECORDER.writePacketAsync(
+                    ClientboundCustomPayloadPacket(
+                        sourceInfoPacket.encodeToByteArrayPayload(),
+                    ),
+                    ConnectionProtocol.PLAY,
+                )
+            }
         }
     }
 
@@ -171,5 +192,15 @@ class VoicePacketRecorder(
                 }.toSet(),
             serverInfo.playerInfo.permissions,
         )
+    }
+
+    private fun currentSourcesPackets(): List<SourceInfoPacket>? {
+        if (voiceClient.serverInfo.isEmpty) return null
+        return voiceClient.sourceManager.sources.map { SourceInfoPacket(it.sourceInfo) }
+    }
+
+    private fun currentSelfSourcesPackets(): List<SelfSourceInfoPacket>? {
+        if (voiceClient.serverInfo.isEmpty) return null
+        return voiceClient.sourceManager.allSelfSourceInfos.map { SelfSourceInfoPacket(it.selfSourceInfo) }
     }
 }

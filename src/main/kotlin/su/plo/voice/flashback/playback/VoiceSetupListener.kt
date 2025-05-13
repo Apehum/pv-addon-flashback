@@ -4,14 +4,11 @@ import com.moulberry.flashback.Flashback
 import com.moulberry.flashback.playback.ReplayPlayer
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
-import su.plo.slib.mod.channel.ByteArrayPayload
-import su.plo.slib.mod.channel.ModChannelManager
 import su.plo.voice.flashback.FlashbackVoiceAddon
 import su.plo.voice.flashback.event.FlashbackEvents
 import su.plo.voice.flashback.network.VoiceSetupPacket
+import su.plo.voice.flashback.util.extension.encodeToByteArrayPayload
 import su.plo.voice.proto.packets.Packet
-import su.plo.voice.proto.packets.tcp.PacketTcpCodec
-import su.plo.voice.server.ModVoiceServer
 import java.security.KeyPair
 
 class VoiceSetupListener(
@@ -62,14 +59,9 @@ class VoiceSetupListener(
     }
 
     private fun ReplayPlayer.sendPlasmoVoicePacket(packet: Packet<*>) {
-        val modChannelManager = ModChannelManager.Companion
-        val codec = modChannelManager.getOrRegisterCodec(ModVoiceServer.CHANNEL)
-
-        val encoded = PacketTcpCodec.encode(packet)
-
         ServerPlayNetworking.send(
             this,
-            ByteArrayPayload(codec.type, encoded),
+            packet.encodeToByteArrayPayload(),
         )
     }
 
