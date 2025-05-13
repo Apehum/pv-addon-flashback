@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.7",
+  "package": "su.plo.voice.flashback.mixin",
+  "client": [
+    "MixinBaseClientAudioSource",
+    "MixinRecorder",
+    "MixinAlOutputDevice",
+    "MixinExportJob",
+    "MixinSoundLibrary"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

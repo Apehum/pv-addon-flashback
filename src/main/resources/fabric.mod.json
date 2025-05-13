@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "pv-addon-flashback",
+  "version": "${version}",
+  "name": "pv-addon-flashback",
+  "description": "A compatibility mod between Plasmo Voice and Flashback",
+  "authors": [
+    "Apehum"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "MIT",
+  "icon": "assets/pvaddonflashback/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "su.plo.voice.flashback.FlashbackVoiceAddon"
+    ],
+    "controlify": [
+    ]
+  },
+  "mixins": [
+    "pvaddonflashback.mixins.json"
+  ],
+  "accessWidener": "pvaddonflashback.accesswidener",
+  "depends": {
+    "fabricloader": ">=0.16.10",
+    "minecraft": ">=1.21.1",
+    "java": ">=21",
+    "fabric-api": "*",
+    "flashback": "*",
+    "plasmovoice": ">=2.1.4"
+  }
+}
