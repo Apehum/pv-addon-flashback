@@ -40,6 +40,7 @@ dependencies {
 
     modImplementation("maven.modrinth:plasmo-voice:fabric-1.21-2.1.4")
     compileOnly("su.plo.voice.api:client:2.1.4")
+    compileOnly("su.plo.voice.api:server:2.1.4")
 
     modImplementation("maven.modrinth:flashback:0.20.1-fabric,1.21.1")
     modImplementation("maven.modrinth:modmenu:11.0.3")

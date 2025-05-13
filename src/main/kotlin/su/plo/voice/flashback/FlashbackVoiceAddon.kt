@@ -6,7 +6,6 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import net.minecraft.resources.ResourceLocation
 import org.slf4j.LoggerFactory
 import su.plo.voice.api.addon.AddonInitializer
-import su.plo.voice.api.addon.AddonLoaderScope
 import su.plo.voice.api.addon.annotation.Addon
 import su.plo.voice.api.addon.injectPlasmoVoice
 import su.plo.voice.api.client.PlasmoVoiceClient
@@ -18,7 +17,6 @@ import su.plo.voice.flashback.playback.VoiceSetupListener
 
 @Addon(
     id = "pv-addon-flashback",
-    scope = AddonLoaderScope.CLIENT,
     version = "1.0.0", // todo: build const
     authors = ["Apehum"],
 )

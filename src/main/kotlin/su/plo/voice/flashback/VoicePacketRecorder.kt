@@ -33,7 +33,7 @@ class VoicePacketRecorder(
     private val minecraft by lazy { Minecraft.getInstance() }
 
     init {
-        FlashbackEvents.WRITE_INITIAL_SNAPSHOT.register { recorder ->
+        FlashbackEvents.WRITE_INITIAL_SNAPSHOT.register {
             val keyPair = voiceClient.serverConnection.getOrNull()?.keyPair ?: return@register
             val connectionPacket = createConnectionPacket() ?: return@register
             val configPacket = createConfigPacket(keyPair) ?: return@register
@@ -88,14 +88,12 @@ class VoicePacketRecorder(
                 ),
             )
 
-        Minecraft.getInstance().submit {
-            if (!shouldRecordPackets()) return@submit
+        if (!shouldRecordPackets()) return
 
-            Flashback.RECORDER.writePacketAsync(
-                ClientboundCustomPayloadPacket(udpPacket),
-                ConnectionProtocol.PLAY,
-            )
-        }
+        Flashback.RECORDER.writePacketAsync(
+            ClientboundCustomPayloadPacket(udpPacket),
+            ConnectionProtocol.PLAY,
+        )
     }
 
     private fun shouldRecordPackets(): Boolean = Flashback.RECORDER?.readyToWrite() == true

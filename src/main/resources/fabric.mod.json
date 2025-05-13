@@ -18,6 +18,9 @@
     "client": [
       "su.plo.voice.flashback.FlashbackVoiceAddon"
     ],
+    "main": [
+      "su.plo.voice.flashback.FlashbackVoiceServerAddon"
+    ],
     "controlify": [
     ]
   },

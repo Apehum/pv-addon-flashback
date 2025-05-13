@@ -8,6 +8,7 @@ import su.plo.voice.api.client.event.audio.capture.AudioCaptureEvent
 import su.plo.voice.api.client.event.audio.capture.AudioCaptureInitializeEvent
 import su.plo.voice.api.client.event.audio.device.source.AlSourceWriteEvent
 import su.plo.voice.api.client.event.audio.source.AudioSourceResetEvent
+import su.plo.voice.api.client.event.connection.ConnectionKeyPairGenerateEvent
 import su.plo.voice.api.client.event.render.HudActivationRenderEvent
 import su.plo.voice.api.client.event.render.VoiceDistanceRenderEvent
 import su.plo.voice.api.client.event.socket.UdpClientClosedEvent
@@ -22,6 +23,13 @@ class VoiceReplayEvents(
     private val addon: FlashbackVoiceAddon,
     private val voiceClient: PlasmoVoiceClient,
 ) {
+    @EventSubscribe
+    fun onKeyPairGenerate(event: ConnectionKeyPairGenerateEvent) {
+        VoiceSetupListener.currentKeyPair?.let {
+            event.keyPair = it
+        }
+    }
+
     @EventSubscribe
     fun onUdpClientConnect(event: UdpClientConnectEvent) {
         if (!Flashback.isInReplay()) return
@@ -39,6 +47,7 @@ class VoiceReplayEvents(
     fun onUdpClientDisconnect(event: UdpClientClosedEvent) {
         if (voiceClient.timeSupplier !is ReplayTimeSupplier) return
         voiceClient.timeSupplier = SystemTimeSupplier()
+        VoiceSetupListener.currentKeyPair = null
     }
 
     @EventSubscribe
