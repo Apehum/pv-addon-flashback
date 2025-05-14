@@ -1,0 +1,8 @@
+{
+  "clothconfig.pvaddonflashback.general": "General",
+  "clothconfig.pvaddonflashback.export": "Export Voice Chat",
+  "clothconfig.pvaddonflashback.export_tooltip": "Export voice chat when Record Audio is enabled in Flashback export settings",
+
+  "modmenu.descriptionTranslation.pv-addon-flashback": "Compatability add-on for Plasmo Voice and Flashback mod",
+  "modmenu.summaryTranslation.pv-addon-flashback": "Compatability add-on for Plasmo Voice and Flashback mod"
+}

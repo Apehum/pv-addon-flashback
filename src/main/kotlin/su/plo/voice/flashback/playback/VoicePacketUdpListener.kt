@@ -4,6 +4,7 @@ import com.google.common.collect.Maps
 import com.moulberry.flashback.Flashback
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import su.plo.voice.flashback.FlashbackVoiceAddon
+import su.plo.voice.flashback.invoke
 import su.plo.voice.flashback.isCameraRemotePlayer
 import su.plo.voice.flashback.network.PacketUdpWrapper
 import su.plo.voice.proto.data.audio.source.DirectSourceInfo
@@ -28,7 +29,9 @@ class VoicePacketUdpListener(
 
         val shouldSend =
             if (Flashback.isExporting()) {
-                Flashback.EXPORT_JOB.settings.recordAudio() && Flashback.EXPORT_JOB.currentTickDouble > 0.0
+                FlashbackVoiceAddon.config.exportVoiceChat() &&
+                    Flashback.EXPORT_JOB.settings.recordAudio() &&
+                    Flashback.EXPORT_JOB.currentTickDouble > 0.0
             } else {
                 !replayServer.fastForwarding && !replayServer.replayPaused
             }

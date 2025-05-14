@@ -21,7 +21,8 @@
     "main": [
       "su.plo.voice.flashback.FlashbackVoiceServerAddon"
     ],
-    "controlify": [
+    "modmenu": [
+      "su.plo.voice.flashback.integration.ModMenuIntegration"
     ]
   },
   "mixins": [

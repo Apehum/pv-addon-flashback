@@ -1,7 +1,10 @@
+import java.net.URI
+
 plugins {
     kotlin("jvm") version "2.0.21"
     id("fabric-loom") version "1.10-SNAPSHOT"
     id("com.gradleup.shadow") version "8.3.5"
+    id("su.plo.crowdin.plugin") version "1.1.0-SNAPSHOT"
 }
 
 repositories {
@@ -31,6 +34,8 @@ loom {
 
 dependencies {
     compileOnly(kotlin("stdlib-jdk8"))
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.7.3")
 
     minecraft("com.mojang:minecraft:1.21.1")
     mappings(loom.officialMojangMappings())
@@ -45,6 +50,12 @@ dependencies {
     modImplementation("maven.modrinth:flashback:0.20.1-fabric,1.21.1")
     modImplementation("maven.modrinth:modmenu:11.0.3")
     modImplementation("maven.modrinth:cloth-config:15.0.140+fabric")
+}
+
+crowdin {
+    url = URI.create("https://github.com/plasmoapp/plasmo-voice-crowdin/archive/refs/heads/addons.zip").toURL()
+    sourceFileName = "client/flashback.json"
+    resourceDir = "assets/pvaddonflashback/lang"
 }
 
 @Suppress("UnstableApiUsage")
