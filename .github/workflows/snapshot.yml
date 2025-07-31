@@ -31,4 +31,5 @@ jobs:
         name: pv-addon-flashback
         path: |
           build/libs/*.jar
-          !build/libs/*-@(sources|all).jar
+          !build/libs/*-sources.jar
+          !build/libs/*-all.jar
