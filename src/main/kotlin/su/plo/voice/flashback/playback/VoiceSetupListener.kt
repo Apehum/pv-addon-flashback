@@ -1,14 +1,14 @@
 package su.plo.voice.flashback.playback
 
-import com.moulberry.flashback.Flashback
-import com.moulberry.flashback.playback.ReplayPlayer
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
+import net.fabricmc.fabric.impl.networking.client.ClientNetworkingImpl
+import net.minecraft.client.Minecraft
+import su.plo.slib.mod.channel.ByteArrayPayload
 import su.plo.voice.flashback.FlashbackVoiceAddon
 import su.plo.voice.flashback.event.FlashbackEvents
 import su.plo.voice.flashback.network.VoiceSetupPacket
 import su.plo.voice.flashback.util.extension.encodeToByteArrayPayload
-import su.plo.voice.proto.packets.Packet
+import su.plo.voice.server.ModVoiceServer
 import java.security.KeyPair
 
 class VoiceSetupListener(
@@ -47,22 +47,24 @@ class VoiceSetupListener(
             return
         }
 
-        val replayServer = Flashback.getReplayServer() ?: return
+        val connection = Minecraft.getInstance().connection ?: return
         currentKeyPair = voiceSetupPacket.keyPair
 
-        for (replayViewer in replayServer.replayViewers) {
-            replayViewer.sendPlasmoVoicePacket(voiceSetupPacket.connection)
-            replayViewer.sendPlasmoVoicePacket(voiceSetupPacket.config)
-            replayViewer.sendPlasmoVoicePacket(voiceSetupPacket.playerList)
-            replayViewer.sendPlasmoVoicePacket(voiceSetupPacket.language)
-        }
-    }
+        // this is a hack, but it's necessary to save compat with existing replays
+        // better way is to record packets separately
+        val handler =
+            ClientNetworkingImpl
+                .getAddon(connection)
+                .getHandler(ModVoiceServer.CHANNEL)
+                as? ClientPlayNetworking.PlayPayloadHandler<ByteArrayPayload>
+                ?: return
 
-    private fun ReplayPlayer.sendPlasmoVoicePacket(packet: Packet<*>) {
-        ServerPlayNetworking.send(
-            this,
-            packet.encodeToByteArrayPayload(),
-        )
+        listOf(
+            voiceSetupPacket.connection.encodeToByteArrayPayload(),
+            voiceSetupPacket.config.encodeToByteArrayPayload(),
+            voiceSetupPacket.playerList.encodeToByteArrayPayload(),
+            voiceSetupPacket.language.encodeToByteArrayPayload(),
+        ).forEach { handler.receive(it, context) }
     }
 
     companion object {
