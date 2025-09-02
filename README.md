@@ -3,7 +3,7 @@
 <div>
     <a href="https://modrinth.com/mod/plasmo-voice">Plasmo Voice</a>
     <span> | </span>
-    <a href="https://modrinth.com/plugin/pv-addon-flashback">Modrinth</a>
+    <a href="https://modrinth.com/mod/pv-addon-flashback">Modrinth</a>
     <span> | </span>
     <a href="https://discord.com/invite/uueEqzwCJJ">Discord</a>
      <span> | </span>
