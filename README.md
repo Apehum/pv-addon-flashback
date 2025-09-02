@@ -12,7 +12,7 @@
 
 # pv-addon-flashback
 
-Compatability add-on for [Plasmo Voice](https://modrinth.com/plugin/plasmo-voice) and [Flashback](https://modrinth.com/mod/flashback) mod.
+Compatibility add-on for [Plasmo Voice](https://modrinth.com/plugin/plasmo-voice) and [Flashback](https://modrinth.com/mod/flashback) mod.
 
 With this add-on Plasmo Voice will be recorded in Flashback replays.
 
